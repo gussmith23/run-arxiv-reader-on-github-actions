@@ -17,12 +17,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: true
       - name: Install pip dependencies
         run: pip install -r requirements.txt
       - name: Run arxiv-reader
-        run: python convert.py "${{ github.event.inputs.arxiv_id }}"
+        run: cd arxiv-reader && python convert.py "${{ github.event.inputs.arxiv_id }}"
       - name: Upload arxiv-reader output
         uses: actions/upload-artifact@v3
         with:
           name: "${{ github.event.inputs.arxiv_id }}.wav"
-          path: "${{ github.event.inputs.arxiv_id }}.wav"
+          path: "arxiv-reader/${{ github.event.inputs.arxiv_id }}.wav"
