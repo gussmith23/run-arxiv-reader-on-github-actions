@@ -1,0 +1,28 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Run arxiv-reader on Arxiv paper
+
+# Controls when the workflow will run
+on:
+  workflow_dispatch:
+    inputs:
+      arxiv_id:
+        description: 'Arxiv ID of the paper to run arxiv-reader on'
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install pip dependencies
+        run: pip install -r requirements.txt
+      - name: Run arxiv-reader
+        run: python convert.py "${{ github.event.inputs.arxiv_id }}"
+      - name: Upload arxiv-reader output
+        uses: actions/upload-artifact@v3
+        with:
+          name: "${{ github.event.inputs.arxiv_id }}.wav"
+          path: "${{ github.event.inputs.arxiv_id }}.wav"
