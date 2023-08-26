@@ -1,0 +1,24 @@
+FROM ubuntu:22.04
+
+RUN sudo apt update && sudo apt install -y \
+  curl \
+  pandoc \
+  python3
+
+WORKDIR /root
+ADD requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+
+
+# Build and install patched pandoc
+WORKDIR /root
+ADD pandoc/ pandoc/
+RUN curl -sSL https://get.haskellstack.org/ | sh \
+  && cd pandoc \
+  && stack setup \
+  && stack install pandoc-cli
+ENV PATH="$HOME/.local/bin:$PATH"
+
+WORKDIR /root
+ADD arxiv-reader/ arxiv-reader/
+
