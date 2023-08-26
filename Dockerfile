@@ -16,8 +16,8 @@ WORKDIR /root
 ADD pandoc/ pandoc/
 RUN mkdir -p "$HOME/.local/bin"
 ENV PATH="$HOME/.local/bin:$PATH"
-RUN wget https://github.com/commercialhaskell/stack/releases/download/v2.9.1/stack-2.9.1-linux-x86_64-bin -o "$HOME/.local/bin/stack" \
-  && cd pandoc \
+RUN wget https://github.com/commercialhaskell/stack/releases/download/v2.9.1/stack-2.9.1-linux-x86_64-bin -o "$HOME/.local/bin/stack"
+RUN cd pandoc \
   && stack setup \
   && stack install pandoc-cli
 
