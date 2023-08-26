@@ -10,23 +10,45 @@ on:
         description: 'Arxiv ID of the paper to run arxiv-reader on'
         required: true
         type: string
+      remove_ranges:
+        description: 'Remove range of lines from arxiv LaTeX source. See arxiv-reader/convert.py arguments.'
+        required: false
+        type: string
+        default: '[]'
+
+env:
+  REGISTRY: ghcr.io
+  # Can't use ${{ env.REGISTRY }} here, but would like to, so that we' don't
+  # repeat ghcr.io.
+  IMAGE_TAG: ghcr.io/${{ github.repository }}:sha-${{ github.sha }}
 
 jobs:
   run:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
 
     steps:
-      - name: Install apt dependencies
-        run: sudo apt update && sudo apt install -y pandoc
-      - uses: actions/checkout@v3
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
         with:
-          submodules: true
-      - name: Install pip dependencies
-        run: pip install -r requirements.txt
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Run arxiv-reader
-        run: cd arxiv-reader && python convert.py "${{ github.event.inputs.arxiv_id }}"
+        run: |
+          CONTAINER_NAME=run-$(date +%s)
+          echo "Docker container name: $CONTAINER_NAME"
+          docker run \
+            --name $CONTAINER_NAME \
+            --env OUTPUT_DIR=/root/results \
+            ${{ env.IMAGE_TAG }}
+            bash -c "cd arxiv-reader && python convert.py --arxiv_id ${{ github.event.inputs.arxiv_id }} --remove_ranges ${{ github.event.inputs.remove_ranges }}"
+          docker cp $CONTAINER_NAME:arxiv-reader/${{ github.event.inputs.arxiv_id }}.wav ${{ github.event.inputs.arxiv_id }}.wav
       - name: Upload arxiv-reader output
         uses: actions/upload-artifact@v3
         with:
           name: "${{ github.event.inputs.arxiv_id }}.wav"
-          path: "arxiv-reader/${{ github.event.inputs.arxiv_id }}.wav"
+          path: "${{ github.event.inputs.arxiv_id }}.wav"
