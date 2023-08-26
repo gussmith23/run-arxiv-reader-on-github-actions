@@ -1,3 +1,6 @@
 [submodule "arxiv-reader"]
 	path = arxiv-reader
 	url = git@github.com:AI-Guru/arxiv-reader.git
+[submodule "pandoc"]
+	path = pandoc
+	url = git@github.com:krobelus/pandoc
