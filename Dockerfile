@@ -19,8 +19,8 @@ ENV PATH="$HOME/.local/bin:$PATH"
 RUN wget https://github.com/commercialhaskell/stack/releases/download/v2.9.1/stack-2.9.1-linux-x86_64-bin -O "$HOME/.local/bin/stack" \
   && chmod +x "$HOME/.local/bin/stack" \
   && cd pandoc \
-  && stack setup \
-  && stack install pandoc-cli
+  && "$HOME/.local/bin/stack" setup \
+  && "$HOME/.local/bin/stack" install pandoc-cli
 
 WORKDIR /root
 ADD arxiv-reader/ arxiv-reader/
