@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Install apt dependencies
+        run: apt update && apt install -y pandoc
       - uses: actions/checkout@v3
         with:
           submodules: true
