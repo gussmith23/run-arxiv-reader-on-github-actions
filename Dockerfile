@@ -3,8 +3,8 @@ FROM ubuntu:22.04
 RUN apt update && apt install -y \
   curl \
   pandoc \
-  pip3 \
-  python3
+  python3 \
+  python3-pip
 
 WORKDIR /root
 ADD requirements.txt requirements.txt
