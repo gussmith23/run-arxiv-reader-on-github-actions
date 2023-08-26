@@ -45,7 +45,7 @@ jobs:
             --name $CONTAINER_NAME \
             --env OUTPUT_DIR=/root/results \
             ${{ env.IMAGE_TAG }}
-            bash -c "cd arxiv-reader && python convert.py --arxiv_id ${{ github.event.inputs.arxiv_id }} --remove_ranges ${{ github.event.inputs.remove_ranges }}"
+            bash -c "cd arxiv-reader && python convert.py --arxiv_id ${{ github.event.inputs.arxiv_id }} --remove_ranges '${{ github.event.inputs.remove_ranges }}'"
           docker cp $CONTAINER_NAME:arxiv-reader/${{ github.event.inputs.arxiv_id }}.wav ${{ github.event.inputs.arxiv_id }}.wav
       - name: Upload arxiv-reader output
         uses: actions/upload-artifact@v3
