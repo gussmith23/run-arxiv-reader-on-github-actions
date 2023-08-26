@@ -1,6 +1,6 @@
 FROM ubuntu:22.04
 
-RUN sudo apt update && sudo apt install -y \
+RUN apt update && apt install -y \
   curl \
   pandoc \
   python3
