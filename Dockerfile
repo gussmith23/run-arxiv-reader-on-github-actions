@@ -5,9 +5,8 @@ RUN apt update && apt install -y \
   python3 \
   python3-pip
 
-# Install pip dependencies. Install torch CPU specifically, and remove
+# Install pip dependencies. Install torch CPU specifically, as it avoids
 # unnecessary GPU stuff (decreases Docker size immensely!)
-# If this errors out, you likely need more cases in the if statement.
 WORKDIR /root
 ADD requirements.txt requirements.txt
 RUN if [ "$(uname -m)" = "x86_64" ] ; then \
@@ -15,19 +14,7 @@ RUN if [ "$(uname -m)" = "x86_64" ] ; then \
   else \
   exit 1; \
   fi \
-  && pip install -r requirements.txt \
-  && pip uninstall -y \
-  nvidia-cublas-cu11 \
-  nvidia-cuda-cupti-cu11 \
-  nvidia-cuda-nvrtc-cu11 \
-  nvidia-cuda-runtime-cu11 \
-  nvidia-cudnn-cu11 \
-  nvidia-cufft-cu11 \
-  nvidia-curand-cu11 \
-  nvidia-cusolver-cu11 \
-  nvidia-cusparse-cu11 \
-  nvidia-nccl-cu11 \
-  nvidia-nvtx-cu11
+  && pip install -r requirements.txt
 
 WORKDIR /root
 ADD arxiv-reader/ arxiv-reader/
