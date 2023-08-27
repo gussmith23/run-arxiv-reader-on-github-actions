@@ -15,7 +15,7 @@ RUN if [ "$(uname -m)" = "x86_64" ] ; then \
   else \
   exit 1; \
   fi \
-  && install -r requirements.txt \
+  && pip install -r requirements.txt \
   && pip uninstall -y \
   nvidia-cublas-cu11 \
   nvidia-cuda-cupti-cu11 \
