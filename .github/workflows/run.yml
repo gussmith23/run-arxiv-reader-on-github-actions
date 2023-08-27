@@ -43,7 +43,7 @@ jobs:
           echo "Docker container name: $CONTAINER_NAME"
           docker run \
             --name $CONTAINER_NAME \
-            ${{ env.IMAGE_TAG }}
+            ${{ env.IMAGE_TAG }} \
             bash -c "cd /root/arxiv-reader && python convert.py --arxiv_id ${{ github.event.inputs.arxiv_id }} --remove_ranges '${{ github.event.inputs.remove_ranges }}'"
           docker cp $CONTAINER_NAME:/root/arxiv-reader/${{ github.event.inputs.arxiv_id }}.wav ${{ github.event.inputs.arxiv_id }}.wav
       - name: Upload arxiv-reader output
