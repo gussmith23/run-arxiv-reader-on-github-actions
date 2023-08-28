@@ -3,7 +3,8 @@ FROM ubuntu:22.04
 RUN apt update && apt install -y \
   pandoc \
   python3 \
-  python3-pip
+  python3-pip \
+  wget
 
 # Install pip dependencies. Install torch CPU specifically, as it avoids
 # unnecessary GPU stuff (decreases Docker size immensely!)
