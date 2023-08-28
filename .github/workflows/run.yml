@@ -50,7 +50,7 @@ jobs:
           docker run \
             --name $CONTAINER_NAME \
             ${{ env.IMAGE_TAG }} \
-            bash -c "cd /root/arxiv-reader && python3 convert.py --arxiv_id ${{ github.event.inputs.arxiv_id }} --remove_ranges '${{ github.event.inputs.remove_ranges }} --output_filepath out.mp3'"
+            bash -c "cd /root/arxiv-reader && python3 convert.py --arxiv_id ${{ github.event.inputs.arxiv_id }} --remove_ranges '${{ github.event.inputs.remove_ranges }} --output_filepath out.mp3"
           docker cp $CONTAINER_NAME:/root/arxiv-reader/out.mp3 out.mp3
         if: github.event.inputs.arxiv_id != ''
 
@@ -61,7 +61,7 @@ jobs:
           docker run \
             --name $CONTAINER_NAME \
             ${{ env.IMAGE_TAG }} \
-            bash -c "cd /root/arxiv-reader && python3 convert.py --paper_url ${{ github.event.inputs.paper_url }} --output_filepath out.mp3'"
+            bash -c "cd /root/arxiv-reader && python3 convert.py --paper_url ${{ github.event.inputs.paper_url }} --output_filepath out.mp3"
           docker cp $CONTAINER_NAME:/root/arxiv-reader/out.mp3 out.mp3
         if: github.event.inputs.paper_url != ''
       - name: Upload arxiv-reader output
