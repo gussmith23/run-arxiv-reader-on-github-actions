@@ -103,7 +103,9 @@ jobs:
           echo "hi"
 
           # Needed information
+          wc -c < $AUDIO_FILEPATH
           BYTES=$(wc -c < $AUDIO_FILEPATH)
+          ffprobe -show_entries stream=duration -of compact=p=0:nk=1 -sexagesimal -v fatal $AUDIO_FILEPATH
           DURATION=$(ffprobe -show_entries stream=duration -of compact=p=0:nk=1 -sexagesimal -v fatal $AUDIO_FILEPATH)
 
           echo "hi"
