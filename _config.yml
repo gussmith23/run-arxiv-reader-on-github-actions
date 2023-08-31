@@ -39,8 +39,8 @@ plugins:
 #   - vendor/gems/
 #   - vendor/ruby/
 
-podcast_url: http://podcast.justg.us
-podcast_album_art: "http://podcast.justg.us/image.jpg"
+podcast_url: https://gussmith23.github.io/run-arxiv-reader-on-github-actions/
+podcast_album_art: "https://gussmith23.github.io/run-arxiv-reader-on-github-actions/image.png"
 podcast_title: Papers Gus Should Read
 podcast_owner: Gus Smith
 podcast_email: gushenrysmith@gmail.com
