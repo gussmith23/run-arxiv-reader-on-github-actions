@@ -105,8 +105,8 @@ jobs:
           # Needed information
           wc -c < $AUDIO_FILEPATH
           BYTES=$(wc -c < $AUDIO_FILEPATH)
-          ffprobe -show_entries stream=duration -of compact=p=0:nk=1 -sexagesimal -v fatal $AUDIO_FILEPATH
-          DURATION=$(ffprobe -show_entries stream=duration -of compact=p=0:nk=1 -sexagesimal -v fatal $AUDIO_FILEPATH)
+          # ffprobe -show_entries stream=duration -of compact=p=0:nk=1 -sexagesimal -v fatal $AUDIO_FILEPATH
+          # DURATION=$(ffprobe -show_entries stream=duration -of compact=p=0:nk=1 -sexagesimal -v fatal $AUDIO_FILEPATH)
 
           echo "hi"
 
@@ -117,7 +117,7 @@ jobs:
           date: $TIMESTAMP
           podcast_link: http://gussmith23.github.io/run-arxiv-reader-on-github-actions/$AUDIO_FILEPATH
           podcast_file_size: $BYTES B
-          podcast_duration: "1:28:17.737143"
+          podcast_duration: "$DURATION"
           podcast_length: $BYTES
           ---
           EOF
