@@ -44,6 +44,13 @@ jobs:
       packages: read
 
     steps:
+      # Messy: we need to checkout the repo first, because otherwise it deletes
+      # files.
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
       - name: Log in to the Container registry
         uses: docker/login-action@v2
         with:
@@ -77,13 +84,6 @@ jobs:
         with:
           name: "out.mp3"
           path: "out.mp3"
-
-      - name: Checkout repo
-        uses: actions/checkout@v3
-        with:
-          ref: main
-          # Don't delete existing files.
-          clean: false
 
       - name: Add file to repo
         run: |
