@@ -93,7 +93,7 @@ jobs:
           # Files to add
           AUDIO_FILEPATH="audio/${{ github.event.inputs.paper_title }}.mp3"
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          POST_FILEPATH=entries/$TIMESTAMP.md
+          POST_FILEPATH=_entries/$TIMESTAMP.md
 
           echo "hi"
 
