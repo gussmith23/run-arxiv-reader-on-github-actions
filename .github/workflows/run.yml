@@ -129,5 +129,6 @@ jobs:
           # Commit and push.
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit $AUDIO_FILEPATH $POST_FILEPATH -m "Add ${{ github.event.inputs.paper_title }}"
+          git add $AUDIO_FILEPATH $POST_FILEPATH
+          git commit -m "Add ${{ github.event.inputs.paper_title }}"
           git push
