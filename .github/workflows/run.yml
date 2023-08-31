@@ -6,6 +6,10 @@ name: Run arxiv-reader on Arxiv paper
 on:
   workflow_dispatch:
     inputs:
+      paper_title:
+        description: 'Title of the paper'
+        required: true
+        type: string
       arxiv_id:
         description: 'Arxiv ID of the paper to run arxiv-reader on'
         required: false
@@ -21,6 +25,10 @@ on:
         required: false
         type: string
         default: '[]'
+
+permissions:
+  # Needed for adding podcast episodes.
+  contents: write
 
 env:
   REGISTRY: ghcr.io
@@ -69,3 +77,36 @@ jobs:
         with:
           name: "out.mp3"
           path: "out.mp3"
+
+      - name: Add file to repo
+        run: |
+          # Install ffmpeg, for getting duration
+          sudo apt-get update && sudo apt-get install -y ffmpeg
+          
+          # Files to add
+          AUDIO_FILEPATH="audio/${{ github.event.inputs.paper_title }}.mp3"
+          POST_FILEPATH=entries/$TIMESTAMP.md
+
+          # Move audio file into place
+          mv out.mp3 $AUDIO_FILEPATH
+
+          # Generate post file
+          BYTES=$(wc -c < $AUDIO_FILEPATH)
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          DURATION=$(ffprobe -show_entries stream=duration -of compact=p=0:nk=1 -sexagesimal -v fatal $AUDIO_FILEPATH)
+          cat > $POST_FILEPATH <<EOF
+          ---
+          title: "${{ github.event.inputs.paper_title }}"
+          date: $TIMESTAMP
+          podcast_link: http://gussmith23.github.io/run-arxiv-reader-on-github-actions/$AUDIO_FILEPATH
+          podcast_file_size: $BYTES B
+          podcast_duration: "1:28:17.737143"
+          podcast_length: $BYTES
+          ---
+          EOF
+          
+          # Commit and push.
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit $AUDIO_FILEPATH $POST_FILEPATH -m "Add ${{ github.event.inputs.paper_title }}"
+          git push
