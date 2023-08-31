@@ -87,9 +87,6 @@ jobs:
 
       - name: Add file to repo
         run: |
-          echo $(pwd)
-          tree
-
           # Install ffmpeg, for getting duration
           sudo apt-get update && sudo apt-get install -y ffmpeg
           
@@ -98,12 +95,12 @@ jobs:
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           POST_FILEPATH=entries/$TIMESTAMP.md
 
+          # Move audio file into place
+          mv out.mp3 $AUDIO_FILEPATH
+
           # Needed information
           BYTES=$(wc -c < $AUDIO_FILEPATH)
           DURATION=$(ffprobe -show_entries stream=duration -of compact=p=0:nk=1 -sexagesimal -v fatal $AUDIO_FILEPATH)
-
-          # Move audio file into place
-          mv out.mp3 $AUDIO_FILEPATH
 
           # Generate post file
           cat > $POST_FILEPATH <<EOF
@@ -116,7 +113,7 @@ jobs:
           podcast_length: $BYTES
           ---
           EOF
-          
+         
           # Commit and push.
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
