@@ -111,6 +111,8 @@ jobs:
           echo "hi"
 
           # Generate post file
+          pwd
+          tree
           cat > $POST_FILEPATH <<EOF
           ---
           title: "${{ github.event.inputs.paper_title }}"
