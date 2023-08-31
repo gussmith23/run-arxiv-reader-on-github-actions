@@ -87,6 +87,9 @@ jobs:
 
       - name: Add file to repo
         run: |
+          echo $(pwd)
+          tree
+
           # Install ffmpeg, for getting duration
           sudo apt-get update && sudo apt-get install -y ffmpeg
           
