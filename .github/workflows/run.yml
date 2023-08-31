@@ -96,11 +96,13 @@ jobs:
 
           # Move audio file into place
           mv out.mp3 $AUDIO_FILEPATH
+          echo "post-move"
 
           # Generate post file
           BYTES=$(wc -c < $AUDIO_FILEPATH)
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           DURATION=$(ffprobe -show_entries stream=duration -of compact=p=0:nk=1 -sexagesimal -v fatal $AUDIO_FILEPATH)
+          echo "hello"
           cat > $POST_FILEPATH <<EOF
           ---
           title: "${{ github.event.inputs.paper_title }}"
@@ -111,6 +113,7 @@ jobs:
           podcast_length: $BYTES
           ---
           EOF
+          echo "hi"
           
           # Commit and push.
           git config user.name "github-actions[bot]"
