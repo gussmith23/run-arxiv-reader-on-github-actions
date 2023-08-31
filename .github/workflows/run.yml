@@ -78,6 +78,11 @@ jobs:
           name: "out.mp3"
           path: "out.mp3"
 
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
       - name: Add file to repo
         run: |
           # Install ffmpeg, for getting duration
