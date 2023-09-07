@@ -26,10 +26,6 @@ on:
         type: string
         default: '[]'
 
-permissions:
-  # Needed for adding podcast episodes.
-  contents: write
-
 env:
   REGISTRY: ghcr.io
   # Can't use ${{ env.REGISTRY }} here, but would like to, so that we' don't
@@ -40,7 +36,8 @@ jobs:
   run:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      # Needed for adding podcast episodes.
+      contents: write
       packages: read
 
     steps:
