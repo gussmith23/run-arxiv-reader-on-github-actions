@@ -95,8 +95,8 @@ jobs:
           AUDIO_FILEPATH="audio/${{ github.event.inputs.paper_title }}.mp3"
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           POST_FILEPATH=_entries/$TIMESTAMP.md
-          echo "AUDIO_FILEPATH=$AUDIO_FILEPATH\n" >> $GITHUB_OUTPUT
-          echo "POST_FILEPATH=$POST_FILEPATH\n" >> $GITHUB_OUTPUT
+          echo "AUDIO_FILEPATH=$AUDIO_FILEPATH" >> $GITHUB_OUTPUT
+          echo "POST_FILEPATH=$POST_FILEPATH" >> $GITHUB_OUTPUT
 
           # Move audio file into place
           mv out.mp3 $AUDIO_FILEPATH
