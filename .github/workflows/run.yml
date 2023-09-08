@@ -90,28 +90,29 @@ jobs:
           
           # Files to add
           AUDIO_FILEPATH="audio/${{ github.event.inputs.paper_title }}.mp3"
+          # Convert spaces to underscores.
+          AUDIO_FILEPATH=${AUDIO_FILEPATH// /_}
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           POST_FILEPATH=_entries/$TIMESTAMP.md
           echo "AUDIO_FILEPATH=$AUDIO_FILEPATH" >> $GITHUB_OUTPUT
           echo "POST_FILEPATH=$POST_FILEPATH" >> $GITHUB_OUTPUT
 
           # Move audio file into place
-          mv out.mp3 $AUDIO_FILEPATH
+          mv out.mp3 "$AUDIO_FILEPATH"
 
           # Needed information
-          wc -c < $AUDIO_FILEPATH
-          BYTES=$(wc -c < $AUDIO_FILEPATH)
-          # ffprobe -show_entries stream=duration -of compact=p=0:nk=1 -sexagesimal -v fatal $AUDIO_FILEPATH
-          # DURATION=$(ffprobe -show_entries stream=duration -of compact=p=0:nk=1 -sexagesimal -v fatal $AUDIO_FILEPATH)
+          BYTES=$(wc -c < "$AUDIO_FILEPATH")
+          # ffprobe -show_entries stream=duration -of compact=p=0:nk=1 -sexagesimal -v fatal "$AUDIO_FILEPATH"
+          # DURATION=$(ffprobe -show_entries stream=duration -of compact=p=0:nk=1 -sexagesimal -v fatal "$AUDIO_FILEPATH")
 
           # Generate post file
           pwd
           tree
-          cat > $POST_FILEPATH <<EOF
+          cat > "$POST_FILEPATH" <<EOF
           ---
           title: "${{ github.event.inputs.paper_title }}"
           date: $TIMESTAMP
-          podcast_link: http://gussmith23.github.io/run-arxiv-reader-on-github-actions/$AUDIO_FILEPATH
+          podcast_link: "http://gussmith23.github.io/run-arxiv-reader-on-github-actions/$AUDIO_FILEPATH"
           podcast_file_size: $BYTES B
           podcast_duration: "$DURATION"
           podcast_length: $BYTES
